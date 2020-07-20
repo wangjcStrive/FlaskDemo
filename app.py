@@ -24,7 +24,7 @@ class Movie(db.Model):
 def index():
     user = User.query.first()
     movie = Movie.query.all()
-    return render_template('index.html', name=user, movies=movie)
+    return render_template('index.html', movies=movie)
 
 # binding the hello function to URL /
 @app.route('/home')
@@ -41,6 +41,18 @@ def test_url_for():
     print(url_for('user_page', name='jichen'))
     print(url_for('test_url_for'))
     return 'test page'
+
+@app.errorhandler(404)
+def page_not_found(e):
+    user = User.query.first()
+    return render_template('404.html'), 404  # 返回模板和状态码
+
+
+# 多个模板内都需要使用的变量，用context_processon，会统一注入到每个模板的上下文环境中，可以在模板中直接使用
+@app.context_processor
+def inject_user():
+    user = User.query.first()
+    return dict(user=user)
 
 # 注册为命令
 # (env) $ flask initDB
