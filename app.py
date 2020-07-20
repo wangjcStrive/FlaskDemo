@@ -1,11 +1,14 @@
 import click
-from flask import Flask, url_for, escape, render_template
+from flask import Flask, url_for, escape, render_template, request, redirect, flash
 from flask_sqlalchemy import SQLAlchemy
 import  os
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///'+os.path.join(app.root_path, 'data.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SECRET_KEY'] = 'dev'
+# app.secret_key = '12345'
+# app.config['SESSION_TYPE'] = 'filesystem'
 db = SQLAlchemy(app)
 
 
@@ -20,11 +23,11 @@ class Movie(db.Model):
     year = db.Column(db.String(4))
 
 
-@app.route('/')
-def index():
-    user = User.query.first()
-    movie = Movie.query.all()
-    return render_template('index.html', movies=movie)
+# @app.route('/')
+# def index():
+#     user = User.query.first()
+#     movie = Movie.query.all()
+#     return render_template('index.html', movies=movie)
 
 # binding the hello function to URL /
 @app.route('/home')
@@ -41,6 +44,48 @@ def test_url_for():
     print(url_for('user_page', name='jichen'))
     print(url_for('test_url_for'))
     return 'test page'
+
+
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    if request.method == 'POST':
+        # get form data
+        title = request.form.get('title')
+        year = request.form.get('year')
+        # 验证
+        if not title or not year or len(year)>4 or len(title)>60:
+            flash('Invalid input.')
+            return redirect(url_for('index'))
+
+        # save data
+        newAddMovie = Movie(title=title, year=year)
+        db.session.add(newAddMovie)
+        db.session.commit()
+        flash('Item created.')
+        return redirect(url_for('index'))
+    user = User.query.first()
+    movies = Movie.query.all()
+    return render_template('index.html', user=user, movies=movies)
+
+
+@app.route('/movie/edit/<int:movie_id>', methods=['GET', 'POST'])
+def edit(movie_id):
+    movie = Movie.query.get_or_404(movie_id)
+
+    if request.method =='POST':
+        title = request.form['title']
+        year = request.form['year']
+        if not title or not year or len(year)>4 or len(title)>60:
+            flash('Invalid Input')
+            return redirect(url_for('edit', movie_id=movie_id))
+        movie.title = title
+        movie.year = year
+        db.session.commit()
+        flash('item updated')
+        return redirect(url_for('index'))
+    return render_template('edit.html', movie=movie)
+
+
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -89,3 +134,6 @@ def forge():
 
     db.session.commit()
     click.echo('Done')
+
+if __name__ == "__main__":
+    app.run()
