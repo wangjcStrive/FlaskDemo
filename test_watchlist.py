@@ -1,5 +1,7 @@
 import unittest
-from app import app, db, Movie, User, forge, initDB
+from watchlist import app, db
+from watchlist.models import  Movie, User
+from watchlist.commands import forge, initdb
 
 
 class WatchlistTestCase(unittest.TestCase):
@@ -147,7 +149,7 @@ class WatchlistTestCase(unittest.TestCase):
             password='123'
         ), follow_redirects=True)
         data = response.get_data(as_text=True)
-        self.assertIn('Login Successfuly', data)
+        self.assertIn('Login success.', data)
         self.assertIn('Logout', data)
         self.assertIn('Settings', data)
         self.assertIn('Delete', data)
@@ -235,7 +237,7 @@ class WatchlistTestCase(unittest.TestCase):
         self.assertNotEqual(Movie.query.count(), 0)
 
     def test_initdb_command(self):
-        result = self.runner.invoke(initDB)
+        result = self.runner.invoke(initdb)
         self.assertIn('Initialized database', result.output)
 
     # 测试生成管理员账户
@@ -243,7 +245,7 @@ class WatchlistTestCase(unittest.TestCase):
         db.drop_all()
         db.create_all()
         result = self.runner.invoke(args=['admin', '--username', 'grey', '--password', '123'])
-        self.assertIn('creating user...', result.output)
+        self.assertIn('Creating user...', result.output)
         self.assertIn('Done.', result.output)
         self.assertEqual(User.query.count(), 1)
         self.assertEqual(User.query.first().username, 'grey')
@@ -260,5 +262,4 @@ class WatchlistTestCase(unittest.TestCase):
         self.assertTrue(User.query.first().validate_password('456'))
 
 if __name__ == '__main__':
-    if __name__ == '__main__':
-        unittest.main()
+    unittest.main()
