@@ -22,3 +22,10 @@ class Movie(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(60))
     year = db.Column(db.String(4))
+
+
+class ScoreRecord(db.Model):
+    id = db.Column(db.Interger, primary_key=True)
+    date = db.Column(db.String(20))
+    week = db.Column(db.String(20))
+    baby = db.Column(db.Interger)

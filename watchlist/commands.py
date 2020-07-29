@@ -2,7 +2,7 @@
 import click
 
 from watchlist import app, db
-from watchlist.models import User, Movie
+from watchlist.models import User, Movie, ScoreRecord
 
 
 @app.cli.command()
@@ -20,7 +20,7 @@ def forge():
     """Generate fake data."""
     db.create_all()
 
-    name = 'Grey Li'
+    name = 'Wangjc'
     movies = [
         {'title': 'My Neighbor Totoro', 'year': '1988'},
         {'title': 'Dead Poets Society', 'year': '1989'},
@@ -34,14 +34,31 @@ def forge():
         {'title': 'The Pork of Music', 'year': '2012'},
     ]
 
-    user = User(name=name)
-    db.session.add(user)
+    scoreRecord = [
+        {'date': '20200701', 'week': 'Mon', 'baby': 1},
+        {'date': '20200703', 'week': 'Thur', 'baby': 0},
+        {'date': '20200705', 'week': 'Wed', 'baby': 1},
+        {'date': '20200707', 'week': 'Tue', 'baby': 1},
+        {'date': '20200709', 'week': 'Fri', 'baby': 1},
+        {'date': '20200801', 'week': 'Sat', 'baby': 1},
+        {'date': '20200901', 'week': 'Sun', 'baby': 1},
+        {'date': '20201001', 'week': 'Mon', 'baby': 1},
+        {'date': '20201101', 'week': 'Mon', 'baby': 1},
+    ]
+
+    # user = User(name=name)
+    # db.session.add(user)
     for m in movies:
         movie = Movie(title=m['title'], year=m['year'])
         db.session.add(movie)
 
+    for n in scoreRecord:
+        record = ScoreRecord(date=n['date'], week=n['week'], baby=n['baby'])
+        db.session.add(record)
+
     db.session.commit()
     click.echo('Done.')
+
 
 
 @app.cli.command()
