@@ -3,7 +3,7 @@ from flask import render_template, request, url_for, redirect, flash
 from flask_login import login_user, login_required, logout_user, current_user
 
 from watchlist import app, db
-from watchlist.models import User, Movie
+from watchlist.models import User, Movie, ScoreRecord
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -27,6 +27,12 @@ def index():
 
     movies = Movie.query.all()
     return render_template('index.html', movies=movies)
+
+@app.route('/score', methods=['GET', 'POST'])
+@login_required
+def score():
+    score_records = ScoreRecord.query.all()
+    return render_template('score.html', scoreRecords=score_records)
 
 
 @app.route('/movie/edit/<int:movie_id>', methods=['GET', 'POST'])

@@ -25,7 +25,7 @@ class Movie(db.Model):
 
 
 class ScoreRecord(db.Model):
-    id = db.Column(db.Interger, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     date = db.Column(db.String(20))
     week = db.Column(db.String(20))
-    baby = db.Column(db.Interger)
+    baby = db.Column(db.Integer)
