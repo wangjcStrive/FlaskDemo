@@ -6,5 +6,21 @@
     <li>{{ record.id }} - {{ record.date}} - {{ record.week }} - {{ record.baby }}</li>
     {% endfor %}
 </ul>
+<table class="customers">
+    <tr>
+        <th>ID</th>
+        <th>Date</th>
+        <th>Week</th>
+        <th>Score</th>
+    </tr>
+    {% for record in scoreRecords %}
+    <tr>
+        <td>{{ record.id }}</td>
+        <td>{{ record.date }}</td>
+        <td>{{ record.week }}</td>
+        <td>{{ record.baby }}</td>
+    </tr>
+    {% endfor %}
+</table>
 <img alt="Walking Chicken" class="totoro" src="{{ url_for('static', filename='Images/chicken.gif') }}" title="to~to~ro~">
 {% endblock %}
