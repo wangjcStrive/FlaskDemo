@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<h3>Score Edit</h3>
+<form method="post">
+    ID:<input type="text" name="ID" autocomplete="off" required value="{{ score_record.id }}"><br>
+    Date:<input type="text" name="date" autocomplete="off" required value="{{ score_record.date }}"><br>
+    Week:<input type="text" name="week" autocomplete="off" required value="{{ score_record.week }}"><br>
+    Baby:<input type="text" name="baby" autocomplete="off" required value="{{ score_record.baby }}"><br>
+    EarlyToBed:<input type="text" name="earlyToBed" autocomplete="off" required value="{{ score_record.EarlyToBed }}"><br>
+    Drink:<input type="text" name="drink" autocomplete="off" required value="{{ score_record.Drink }}"><br>
+    JL:<input type="text" name="jl" autocomplete="off" required value="{{ score_record.JL }}"><br>
+    Eat:<input type="text" name="eat" autocomplete="off" required value="{{ score_record.Eat }}"><br>
+    WashRoom:<input type="text" name="washRoom" autocomplete="off" required value="{{ score_record.WashRoom }}"><br>
+    Coding:<input type="text" name="coding" autocomplete="off" required value="{{ score_record.Coding }}"><br>
+    LearnDaily:<input type="text" name="learnDaily" autocomplete="off" required value="{{ score_record.LearnDaily }}"><br>
+    Eng:<input type="text" name="Eng" autocomplete="off" required value="{{ score_record.Eng }}"><br>
+    Efficiency:<input type="text" name="efficiency" autocomplete="off" required value="{{ score_record.Efficiency }}"><br>
+    HZ:<input type="text" name="hz" autocomplete="off" required value="{{ score_record.HZ }}"><br>
+    Score:<input type="text" name="score" autocomplete="off" required value="{{ score_record.Score }}"><br>
+    Comments:<input type="text" name="comments" autocomplete="off" required value="{{ score_record.Comments }}"><br>
+    Review:<input type="text" name="review" autocomplete="off" required value="{{ score_record.Review }}"><br>
+    <input class="btn" type="submit" name="submit" value="Save"><br>
+</form>
+{% endblock %}

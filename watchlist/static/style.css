@@ -1,6 +1,6 @@
 body {
     margin: auto;
-    max-width: 580px;
+    max-width: 880px;
     font-size: 14px;
     font-family: Helvetica, Arial, sans-serif;
 }
@@ -19,6 +19,11 @@ nav ul {
 
 nav li {
     float: left;
+    height: 30px;
+}
+
+nav ul {
+    height: 30px;
 }
 
 nav li a {
@@ -125,27 +130,29 @@ footer {
     padding: 10px;
 }
 
-.customers{
+.scoreTable {
     width: 100%;
     border-collapse: collapse;
 }
 
-.customers td, .customers th{
+.scoreTable td{
     font-size: 1em;
+    width: fit-content;
     border: 1px solid #98bf21;
     padding: 3px 7px 2px 7px;
 }
 
-.customers th{
+.scoreTable th{
     font-size:1.1em;
-    text-align:left;
+    text-align:center;
+    width: fit-content;
     padding-top:5px;
     padding-bottom:4px;
-    background-color:#A7C942;
+    background-color:#FFB6C1;
     color:#ffffff;
 }
 
-.customers tr.alt td{
+.scoreTable tr.alt {
     color: #000000;
-    background-color: #eaf2d3;
+    background-color: #E1FFFF;
 }

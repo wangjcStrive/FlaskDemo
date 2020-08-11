@@ -3,8 +3,17 @@ from flask import render_template, request, url_for, redirect, flash
 from flask_login import login_user, login_required, logout_user, current_user
 
 from watchlist import app, db
+from watchlist.DataBase.DailyTaskDB import cursor, conn
 from watchlist.models import User, Movie, ScoreRecord
 
+
+def getAllRecord():
+    allRecordList = []
+    allRecord = cursor.execute("SELECT * FROM dbo.Daily ORDER BY ID DESC").fetchall()
+    for eachRecord in allRecord:
+        scoreRecordIns = ScoreRecord(eachRecord)
+        allRecordList.append(scoreRecordIns)
+    return allRecordList
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -31,8 +40,39 @@ def index():
 @app.route('/score', methods=['GET', 'POST'])
 @login_required
 def score():
-    score_records = ScoreRecord.query.all()
-    return render_template('score.html', scoreRecords=score_records)
+    if request.method == 'POST':
+        if not current_user.is_authenticated:
+            return redirect(url_for('index'))
+        emptyRecord = ScoreRecord()
+        sqlCount = 'SELECT COUNT(*) FROM [DailyTask].[dbo].[Daily]'
+        emptyRecord.id = cursor.execute(sqlCount).fetchone()[0]
+        return render_template('scoreEdit.html', score_record=emptyRecord)
+    allRecordList = getAllRecord()
+    return render_template('score.html', scoreRecords=allRecordList)
+
+
+@app.route('/score/edit/<int:score_id>', methods=['GET', 'POST'])
+@login_required
+def score_edit(score_id):
+    if request.method == 'POST':
+        if not current_user.is_authenticated:
+            return redirect(url_for('index'))
+        sql_insert = 'INSERT INTO [DailyTask].[dbo].[Daily] ' \
+                     'VALUES ({0}, \'{1}\', \'{2}\', {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11}, {12}, {13}, {14}, \'{15}\', {16})'.format(
+            request.form['ID'], request.form['date'], request.form['week'], request.form['baby'],
+            request.form['earlyToBed'], request.form['drink'], request.form['jl'], request.form['eat'],
+            request.form['washRoom'], request.form['coding'], request.form['learnDaily'], request.form['Eng'],
+            request.form['efficiency'], request.form['hz'], request.form['score'], request.form['comments'],
+            request.form['review'])
+        cursor.execute(sql_insert)
+        conn.commit()
+        allRecordList = getAllRecord()
+        return render_template('score.html', scoreRecords=allRecordList)
+    sql = 'SELECT * FROM dbo.Daily WHERE ID={}'.format(score_id)
+    score_record_tuple = cursor.execute(sql).fetchone()
+    scoreRecordIns = ScoreRecord(score_record_tuple)
+    # print('\n'.join(['%s:%s' % item for item in score_record.__dict__.items()]))
+    return render_template('scoreEdit.html', score_record = scoreRecordIns)
 
 
 @app.route('/movie/edit/<int:movie_id>', methods=['GET', 'POST'])

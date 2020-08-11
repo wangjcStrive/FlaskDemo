@@ -1,25 +1,81 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<ul class="movie-list">
-    {% for record in scoreRecords %}
-    <li>{{ record.id }} - {{ record.date}} - {{ record.week }} - {{ record.baby }}</li>
-    {% endfor %}
-</ul>
-<table class="customers">
+<form method="post">
+    <input class="btn" type="submit" name="submit" value="add record">
+</form>
+<table class="scoreTable">
     <tr>
         <th>ID</th>
         <th>Date</th>
         <th>Week</th>
+        <th>Baby</th>
+        <th>EarlyToBed</th>
+        <th>Drink</th>
+        <th>JL</th>
+        <th>Eat</th>
+        <th>WashRoom</th>
+        <th>Coding</th>
+        <th>LearnDaily</th>
+        <th>Eng</th>
+        <th>Efficiency</th>
+        <th>HZ</th>
         <th>Score</th>
+        <th>Comments</th>
+        <th>Review</th>
     </tr>
     {% for record in scoreRecords %}
-    <tr>
-        <td>{{ record.id }}</td>
-        <td>{{ record.date }}</td>
-        <td>{{ record.week }}</td>
-        <td>{{ record.baby }}</td>
-    </tr>
+        {% if loop.index is divisibleby(2) %}
+            <tr>
+                <td>{{ record.id }}</td>
+                <td>{{ record.date }}</td>
+                <td>{{ record.week }}</td>
+                <td>{{ record.baby }}</td>
+                <td>{{ record.EarlyToBed }}</td>
+                <td>{{ record.Drink }}</td>
+                <td>{{ record.JL }}</td>
+                <td>{{ record.Eat }}</td>
+                <td>{{ record.WashRoom }}</td>
+                <td>{{ record.Coding }}</td>
+                <td>{{ record.LearnDaily }}</td>
+                <td>{{ record.Eng }}</td>
+                <td>{{ record.Efficiency }}</td>
+                <td>{{ record.HZ }}</td>
+                <td>{{ record.Score	}}</td>
+                <td>{{ record.Comments }}</td>
+                <td>{{ record.Review }}</td>
+                <td>
+                    <span class="float-right">
+                        <a class="btn" href="{{ url_for('score_edit', score_id=record.id) }}">Edit</a>
+                    </span>
+                </td>
+            </tr>
+        {% else %}
+            <tr class="alt">
+                <td>{{ record.id }}</td>
+                <td>{{ record.date }}</td>
+                <td>{{ record.week }}</td>
+                <td>{{ record.baby }}</td>
+                <td>{{ record.EarlyToBed }}</td>
+                <td>{{ record.Drink }}</td>
+                <td>{{ record.JL }}</td>
+                <td>{{ record.Eat }}</td>
+                <td>{{ record.WashRoom }}</td>
+                <td>{{ record.Coding }}</td>
+                <td>{{ record.LearnDaily }}</td>
+                <td>{{ record.Eng }}</td>
+                <td>{{ record.Efficiency }}</td>
+                <td>{{ record.HZ }}</td>
+                <td>{{ record.Score	}}</td>
+                <td>{{ record.Comments }}</td>
+                <td>{{ record.Review }}</td>
+                <td>
+                    <span class="float-right">
+                        <a class="btn" href="{{ url_for('score_edit', score_id=record.id) }}">Edit</a>
+                    </span>
+                </td>
+            </tr>
+        {% endif %}
     {% endfor %}
 </table>
 <img alt="Walking Chicken" class="totoro" src="{{ url_for('static', filename='Images/chicken.gif') }}" title="to~to~ro~">
