@@ -15,6 +15,10 @@ def getAllRecord():
         allRecordList.append(scoreRecordIns)
     return allRecordList
 
+def getRecordQuanty():
+    sqlCount = 'SELECT COUNT(*) FROM [DailyTask].[dbo].[Daily]'
+    return cursor.execute(sqlCount).fetchone()[0]
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
@@ -40,15 +44,15 @@ def index():
 @app.route('/score', methods=['GET', 'POST'])
 @login_required
 def score():
+    allRecordList = getAllRecord()
+    allRecordCount = len(allRecordList)
     if request.method == 'POST':
         if not current_user.is_authenticated:
             return redirect(url_for('index'))
         emptyRecord = ScoreRecord()
-        sqlCount = 'SELECT COUNT(*) FROM [DailyTask].[dbo].[Daily]'
-        emptyRecord.id = cursor.execute(sqlCount).fetchone()[0]
+        emptyRecord.id = getRecordQuanty() + 1
         return render_template('scoreEdit.html', score_record=emptyRecord)
-    allRecordList = getAllRecord()
-    return render_template('score.html', scoreRecords=allRecordList)
+    return render_template('score.html', scoreRecords=allRecordList, newRecordID=allRecordCount+1)
 
 
 @app.route('/score/edit/<int:score_id>', methods=['GET', 'POST'])
@@ -67,10 +71,15 @@ def score_edit(score_id):
         cursor.execute(sql_insert)
         conn.commit()
         allRecordList = getAllRecord()
-        return render_template('score.html', scoreRecords=allRecordList)
+        return redirect(url_for('score'))
+        # return render_template('score.html', scoreRecords=allRecordList)
     sql = 'SELECT * FROM dbo.Daily WHERE ID={}'.format(score_id)
     score_record_tuple = cursor.execute(sql).fetchone()
-    scoreRecordIns = ScoreRecord(score_record_tuple)
+    if score_record_tuple != None:
+        scoreRecordIns = ScoreRecord(score_record_tuple)
+    else:
+        scoreRecordIns =  ScoreRecord()
+        scoreRecordIns.id = getRecordQuanty() + 1
     # print('\n'.join(['%s:%s' % item for item in score_record.__dict__.items()]))
     return render_template('scoreEdit.html', score_record = scoreRecordIns)
 
