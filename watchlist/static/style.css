@@ -1,7 +1,7 @@
 body {
     margin: auto;
-    max-width: 880px;
-    font-size: 14px;
+    max-width: 1000px;
+    font-size: 12px;
     font-family: Helvetica, Arial, sans-serif;
 }
 
@@ -132,6 +132,9 @@ footer {
 
 .scoreTable {
     width: 100%;
+    align-items: center;
+    text-align: left;
+    margin: auto;
     border-collapse: collapse;
 }
 
@@ -148,11 +151,39 @@ footer {
     width: fit-content;
     padding-top:5px;
     padding-bottom:4px;
-    background-color:#FFB6C1;
-    color:#ffffff;
+    background-color:#ffeeb6;
+    color:#000000;
 }
 
 .scoreTable tr.alt {
     color: #000000;
-    background-color: #E1FFFF;
+    background-color: #4885f534;
+}
+
+
+p:not(.register){
+    width: 425px;
+    height: 20px;
+}
+
+p{
+    overflow: hidden;
+}
+
+label:not(.nlabel){
+    float: left;
+    width: 65px;
+    height: 15px;
+    text-align: left;
+    line-height: 20px;
+    font-weight: 400;
+}
+
+
+input[type=newRecord] {
+    float: left;
+    width: 328px;
+    height: 1px;
+    padding: 8px 5px;
+    border: 1px solid silver;
 }

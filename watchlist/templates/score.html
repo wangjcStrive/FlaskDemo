@@ -4,7 +4,10 @@
 <!--<form method="post">-->
 <!--    <input class="btn" type="submit" name="submit" value="add record">-->
 <!--</form>-->
-<a class="btn" href="{{ url_for('score_edit', score_id=newRecordID) }}">Add Record</a>
+<div style="margin-top: 5px; margin-bottom: 5px;">
+    <a class="btn" href="{{ url_for('score_edit', score_id=newRecordID) }}">Add Record</a>
+</div>
+<div style="margin: auto;">
 <table class="scoreTable">
     <tr>
         <th>ID</th>
@@ -24,6 +27,8 @@
         <th>Score</th>
         <th>Comments</th>
         <th>Review</th>
+        <th> </th>
+        <th> </th>
     </tr>
     {% for record in scoreRecords %}
         {% if loop.index is divisibleby(2) %}
@@ -50,6 +55,11 @@
                         <a class="btn" href="{{ url_for('score_edit', score_id=record.id) }}">Edit</a>
                     </span>
                 </td>
+                <td>
+                    <form class="inline-form" method="post" action="{{ url_for('.record_delete', record_id=record.id) }}">
+                        <input class="btn" type="submit" name="delete" value="Delete" onclick="return confirm('are you sure?')">
+                    </form>
+                </td>
             </tr>
         {% else %}
             <tr class="alt">
@@ -75,9 +85,15 @@
                         <a class="btn" href="{{ url_for('score_edit', score_id=record.id) }}">Edit</a>
                     </span>
                 </td>
+                <td>
+                    <form class="inline-form" method="post" action="{{ url_for('.record_delete', record_id=record.id) }}">
+                        <input class="btn" type="submit" name="delete" value="Delete" onclick="return confirm('are you sure?')">
+                    </form>
+                </td>
             </tr>
         {% endif %}
     {% endfor %}
 </table>
-<img alt="Walking Chicken" class="totoro" src="{{ url_for('static', filename='Images/chicken.gif') }}" title="to~to~ro~">
+</div>
+<!--<img alt="Walking Chicken" class="totoro" src="{{ url_for('static', filename='Images/chicken.gif') }}" title="to~to~ro~">-->
 {% endblock %}

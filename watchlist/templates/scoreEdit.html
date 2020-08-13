@@ -1,24 +1,98 @@
 {% extends 'base.html' %}
 {% block content %}
 <h3>Score Edit</h3>
-<form method="post">
-    ID:<input type="text" name="ID" autocomplete="off" required value="{{ score_record.id }}"><br>
-    Date:<input type="text" name="date" autocomplete="off" required value="{{ score_record.date }}"><br>
-    Week:<input type="text" name="week" autocomplete="off" required value="{{ score_record.week }}"><br>
-    Baby:<input type="text" name="baby" autocomplete="off" required value="{{ score_record.baby }}"><br>
-    EarlyToBed:<input type="text" name="earlyToBed" autocomplete="off" required value="{{ score_record.EarlyToBed }}"><br>
-    Drink:<input type="text" name="drink" autocomplete="off" required value="{{ score_record.Drink }}"><br>
-    JL:<input type="text" name="jl" autocomplete="off" required value="{{ score_record.JL }}"><br>
-    Eat:<input type="text" name="eat" autocomplete="off" required value="{{ score_record.Eat }}"><br>
-    WashRoom:<input type="text" name="washRoom" autocomplete="off" required value="{{ score_record.WashRoom }}"><br>
-    Coding:<input type="text" name="coding" autocomplete="off" required value="{{ score_record.Coding }}"><br>
-    LearnDaily:<input type="text" name="learnDaily" autocomplete="off" required value="{{ score_record.LearnDaily }}"><br>
-    Eng:<input type="text" name="Eng" autocomplete="off" required value="{{ score_record.Eng }}"><br>
-    Efficiency:<input type="text" name="efficiency" autocomplete="off" required value="{{ score_record.Efficiency }}"><br>
-    HZ:<input type="text" name="hz" autocomplete="off" required value="{{ score_record.HZ }}"><br>
-    Score:<input type="text" name="score" autocomplete="off" required value="{{ score_record.Score }}"><br>
-    Comments:<input type="text" name="comments" autocomplete="off" required value="{{ score_record.Comments }}"><br>
-    Review:<input type="text" name="review" autocomplete="off" required value="{{ score_record.Review }}"><br>
-    <input class="btn" type="submit" name="submit" value="Save"><br>
-</form>
+<div style="width: 100%;text-align: center;">
+    <form method="post">
+        <p>
+            <label for="ID">ID</label>
+            <input autocomplete="off" id="ID" name="ID" readonly type="newRecord" value="{{ score_record.id }}">
+        </p>
+        <p>
+            <label for="Date">Date</label>
+            <input autocomplete="off" id="Date" name="Date" readonly type="newRecord" value="{{ score_record.date }}">
+        </p>
+        <p>
+            <label for="Week">Week</label>
+            <input autocomplete="off" name="Week" id="Week" type="newRecord" value="{{ score_record.week }}" readonly>
+        </p>
+        <p>
+            <label for="Baby">Baby</label>
+            <input autocomplete="off" name="Baby" id="Baby" type="newRecord" value="{{ score_record.baby }}">
+        </p>
+        <p>
+            <label for="Sleep">Sleep</label>
+            <input autocomplete="off" name="Sleep" id="Sleep" type="newRecord" value="{{ score_record.EarlyToBed }}">
+        </p>
+        <p>
+            <label for="Drink">Drink</label>
+            <input autocomplete="off" name="Drink" id="Drink" type="newRecord" value="{{ score_record.Drink }}">
+        </p>
+        <p>
+            <label for="JL">JL</label>
+            <input autocomplete="off" name="JL" id="JL" type="newRecord" value="{{ score_record.JL }}">
+        </p>
+        <p>
+            <label for="Eat">Eat</label>
+            <input autocomplete="off" name="Eat" id="Eat" type="newRecord" value="{{ score_record.Eat }}">
+        </p>
+        <p>
+            <label for="WashRoom">WashRoom</label>
+            <input autocomplete="off" name="WashRoom" id="WashRoom" type="newRecord" value="{{ score_record.WashRoom }}">
+        </p>
+        <p>
+            <label for="Coding">Coding</label>
+            <input autocomplete="off" name="Coding" id="Coding" type="newRecord" value="{{ score_record.Coding }}">
+        </p>
+        <p>
+            <label for="LearnDaily">LearnDaily</label>
+            <input autocomplete="off" name="LearnDaily" id="LearnDaily" type="newRecord" value="{{ score_record.LearnDaily }}">
+        </p>
+        <p>
+            <label for="Eng">Eng</label>
+            <input autocomplete="off" name="Eng" id="Eng" type="newRecord" value="{{ score_record.Eng }}">
+        </p>
+        <p>
+            <label for="Efficiency">Efficiency</label>
+            <input autocomplete="off" name="Efficiency" id="Efficiency" type="newRecord" value="{{ score_record.Efficiency }}">
+        </p>
+        <p>
+            <label for="HZ">HZ</label>
+            <input autocomplete="off" name="HZ" id="HZ" type="newRecord" value="{{ score_record.HZ }}">
+        </p>
+        <p>
+            <label for="Score">Score</label>
+            <input autocomplete="off" name="Score" id="Score" type="newRecord" value="{{ score_record.Score }}">
+        </p>
+        <p>
+            <label for="Review">Review</label>
+            <input autocomplete="off" name="Review" id="Review" type="newRecord" value="{{ score_record.Review }}">
+        </p>
+        <div style="text-align: left;">
+            <label for="Comments">Comments</label>
+<!--            <input autocomplete="off" name="Comments" id="Comments" type="newRecord" value="{{ score_record.Comments }}">-->
+            <textarea rows="4" cols="80" wrap="hard" name="Comments" id="Comments"></textarea>
+        </div>
+        <p>
+            <input class="btn" type="submit" name="submit" value="Save">
+        </p>
+        <!-- ID:<input type="text" name="ID" autocomplete="off" required value="{{ score_record.id }}"><br>
+        Date:<input type="text" name="date" autocomplete="off" required value="{{ score_record.date }}"><br>
+        Week:<input type="text" name="week" autocomplete="off" required value="{{ score_record.week }}"><br>
+        Baby:<input type="text" name="baby" autocomplete="off" required value="{{ score_record.baby }}"><br>
+        EarlyToBed:<input type="text" name="earlyToBed" autocomplete="off" required value="{{ score_record.EarlyToBed }}"><br>
+        Drink:<input type="text" name="drink" autocomplete="off" required value="{{ score_record.Drink }}"><br>
+        JL:<input type="text" name="jl" autocomplete="off" required value="{{ score_record.JL }}"><br>
+        Eat:<input type="text" name="eat" autocomplete="off" required value="{{ score_record.Eat }}"><br>
+        WashRoom:<input type="text" name="washRoom" autocomplete="off" required value="{{ score_record.WashRoom }}"><br>
+        Coding:<input type="text" name="coding" autocomplete="off" required value="{{ score_record.Coding }}"><br>
+        LearnDaily:<input type="text" name="learnDaily" autocomplete="off" required value="{{ score_record.LearnDaily }}"><br>
+        Eng:<input type="text" name="Eng" autocomplete="off" required value="{{ score_record.Eng }}"><br>
+        Efficiency:<input type="text" name="efficiency" autocomplete="off" required value="{{ score_record.Efficiency }}"><br>
+        HZ:<input type="text" name="hz" autocomplete="off" required value="{{ score_record.HZ }}"><br>
+        Score:<input type="text" name="score" autocomplete="off" required value="{{ score_record.Score }}"><br>
+        Comments:<input type="text" name="comments" autocomplete="off" required value="{{ score_record.Comments }}"><br>
+        Review:<input type="text" name="review" autocomplete="off" required value="{{ score_record.Review }}"><br>
+        <input class="btn" type="submit" name="submit" value="Save"><br> -->
+    </form>
+</div>
 {% endblock %}

@@ -9,7 +9,7 @@ from watchlist.models import User, Movie, ScoreRecord
 
 def getAllRecord():
     allRecordList = []
-    allRecord = cursor.execute("SELECT * FROM dbo.Daily ORDER BY ID DESC").fetchall()
+    allRecord = cursor.execute("SELECT TOP 30 * FROM dbo.Daily ORDER BY ID DESC").fetchall()
     for eachRecord in allRecord:
         scoreRecordIns = ScoreRecord(eachRecord)
         allRecordList.append(scoreRecordIns)
@@ -45,7 +45,7 @@ def index():
 @login_required
 def score():
     allRecordList = getAllRecord()
-    allRecordCount = len(allRecordList)
+    allRecordCount = getRecordQuanty()
     if request.method == 'POST':
         if not current_user.is_authenticated:
             return redirect(url_for('index'))
@@ -83,6 +83,13 @@ def score_edit(score_id):
     # print('\n'.join(['%s:%s' % item for item in score_record.__dict__.items()]))
     return render_template('scoreEdit.html', score_record = scoreRecordIns)
 
+
+@app.route('/score/delete/<int:record_id>', methods=['POST'])
+@login_required
+def record_delete(record_id):
+    sql_delete = 'DELETE FROM [DailyTask].[dbo].[Daily] WHERE [ID] = {0}'.format(record_id)
+    conn.execute(sql_delete)
+    conn.commit()
 
 @app.route('/movie/edit/<int:movie_id>', methods=['GET', 'POST'])
 @login_required
