@@ -59,7 +59,7 @@ class ScoreRecord(db.Model):
             self.Eng = record[0][11]
             self.Efficiency = record[0][12]
             self.HZ = record[0][13]
-            self.Score= record[0][14]
+            self.Score = record[0][14]
             self.Comments = record[0][15]
             self.Review = record[0][16]
 

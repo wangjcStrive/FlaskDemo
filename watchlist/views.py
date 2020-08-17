@@ -54,33 +54,52 @@ def score():
         return render_template('scoreEdit.html', score_record=emptyRecord)
     return render_template('score.html', scoreRecords=allRecordList, newRecordID=allRecordCount+1)
 
-
-@app.route('/score/edit/<int:score_id>', methods=['GET', 'POST'])
+@app.route('/score/add/<int:score_id>', methods=['GET', 'POST'])
 @login_required
 def score_edit(score_id):
     if request.method == 'POST':
         if not current_user.is_authenticated:
             return redirect(url_for('index'))
+        sql_update = 'UPDATE [DailyTask].[dbo].[Daily] ' \
+                     'SET Baby={0}, EarlyToBed={1}, Drink={2}, JL={3}, EatTooMuch={4}, washroom={5}, Coding={6}, ' \
+                     'LearnDaily={7}, Eng={8}, Efficiency={9}, HZ={10}, Score={11}, Comments=\'{12}\', Reviewd={13} ' \
+                     'WHERE ID={14}'.format(
+            request.form['Baby'], request.form['Sleep'], request.form['Drink'], request.form['JL'],
+            request.form['Eat'], request.form['WashRoom'], request.form['Coding'], request.form['LearnDaily'],
+            request.form['Eng'], request.form['Efficiency'], request.form['HZ'], request.form['Score'],
+            request.form['Comments'], request.form['Review'], score_id
+        )
+        cursor.execute(sql_update)
+        conn.commit()
+        allRecordList = getAllRecord()
+        return redirect(url_for('score'))
+    sql = 'SELECT * FROM dbo.Daily WHERE ID={}'.format(score_id)
+    score_record_tuple = cursor.execute(sql).fetchone()
+    record_selected_list = [x for x in score_record_tuple]
+    scoreRecordIns = ScoreRecord(tuple(record_selected_list))
+    return render_template('scoreEdit.html', score_record=scoreRecordIns)
+
+@app.route('/score/edit/<int:score_id>', methods=['GET', 'POST'])
+@login_required
+def score_add(score_id):
+    if request.method == 'POST':
+        if not current_user.is_authenticated:
+            return redirect(url_for('index'))
         sql_insert = 'INSERT INTO [DailyTask].[dbo].[Daily] ' \
-                     'VALUES ({0}, \'{1}\', \'{2}\', {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11}, {12}, {13}, {14}, \'{15}\', {16})'.format(
-            request.form['ID'], request.form['date'], request.form['week'], request.form['baby'],
-            request.form['earlyToBed'], request.form['drink'], request.form['jl'], request.form['eat'],
-            request.form['washRoom'], request.form['coding'], request.form['learnDaily'], request.form['Eng'],
-            request.form['efficiency'], request.form['hz'], request.form['score'], request.form['comments'],
-            request.form['review'])
+                     'VALUES ({0}, \'{1}\', \'{2}\', {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, ' \
+                     '{11}, {12}, {13}, {14}, \'{15}\', {16})'.format(
+            request.form['ID'], request.form['Date'], request.form['Week'], request.form['Baby'],
+            request.form['Sleep'], request.form['Drink'], request.form['JL'], request.form['Eat'],
+            request.form['WashRoom'], request.form['Coding'], request.form['LearnDaily'], request.form['Eng'],
+            request.form['Efficiency'], request.form['HZ'], request.form['Score'], request.form['Comments'],
+            request.form['Review'])
         cursor.execute(sql_insert)
         conn.commit()
         allRecordList = getAllRecord()
         return redirect(url_for('score'))
-        # return render_template('score.html', scoreRecords=allRecordList)
-    sql = 'SELECT * FROM dbo.Daily WHERE ID={}'.format(score_id)
-    score_record_tuple = cursor.execute(sql).fetchone()
-    if score_record_tuple != None:
-        scoreRecordIns = ScoreRecord(score_record_tuple)
-    else:
-        scoreRecordIns =  ScoreRecord()
-        scoreRecordIns.id = getRecordQuanty() + 1
-    # print('\n'.join(['%s:%s' % item for item in score_record.__dict__.items()]))
+
+    scoreRecordIns = ScoreRecord()
+    scoreRecordIns.id = getRecordQuanty() + 1
     return render_template('scoreEdit.html', score_record = scoreRecordIns)
 
 
@@ -90,6 +109,7 @@ def record_delete(record_id):
     sql_delete = 'DELETE FROM [DailyTask].[dbo].[Daily] WHERE [ID] = {0}'.format(record_id)
     conn.execute(sql_delete)
     conn.commit()
+    return redirect(url_for('score'))
 
 @app.route('/movie/edit/<int:movie_id>', methods=['GET', 'POST'])
 @login_required
